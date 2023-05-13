@@ -2,10 +2,10 @@ namespace dotnet_minimal_api.Models;
 
 public class DatabaseSettings
 {
-  public string ConnectionString = "mongodb://localhost:27017";
+  public string ConnectionString { get; set; } = null!;
 
-  public string DatabaseName = "dotnet_minimal_api";
+  public string DatabaseName { get; set; } = null!;
 
-  // collections
-  public string UsersCollectionName = "users";
+  // Collections
+  public string UsersCollectionName { get; set; } = null!;
 }
