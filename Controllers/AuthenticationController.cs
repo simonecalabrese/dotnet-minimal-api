@@ -5,6 +5,9 @@ using JWT.Builder;
 using JWT.Algorithms;
 using System.Text.Json;
 using System.Security.Cryptography.X509Certificates;
+namespace DotNetSix;
+using BCrypt.Net;
+
 
 [ApiController]
 [Route("api/[controller]")]
@@ -42,14 +45,15 @@ public class AuthenticationController : ControllerBase
     }
   }
 
-  [HttpPost("/signup")]
+  [HttpPost("signup")]
   public async Task<IActionResult> SignUp(User newUser)
   {
-    if (newUser.name == null || newUser.name == "")
+    if (newUser.name is null || newUser.name == "")
       return BadRequest();
-    if (newUser.role == null || newUser.role == "")
+    if (newUser.role is null || newUser.role == "")
       return BadRequest();
 
+    newUser.password = BCrypt.EnhancedHashPassword(newUser.password);
     await _usersService.CreateAsync(newUser);
 
     return CreatedAtAction(nameof(GetProfile), new { id = newUser.Id }, newUser);
@@ -60,16 +64,10 @@ public class AuthenticationController : ControllerBase
   {
     var user = await _usersService.GetAsyncByEmail(req.email);
 
-    if (user is null)
+    if (user is null || !BCrypt.EnhancedVerify(req.password, user.password))
     {
       return NotFound();
     }
-    var payload = new Dictionary<string, object>
-    {
-        { "claim1", 0 },
-        { "claim2", "claim2-value" }
-    };
-
     var token = JwtBuilder.Create()
                       .WithAlgorithm(new RS256Algorithm(certificate))
                       .AddClaim("exp", DateTimeOffset.UtcNow.AddHours(1).ToUnixTimeSeconds())
