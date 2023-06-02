@@ -4,8 +4,7 @@ A boiler-plate web api with user authentication made with **.NET 7.0** and **Mon
 
 ### Set up
 
-There's a custom JWT authentication using the [JWT.Net](https://github.com/jwt-dotnet/jwt) package.
-It needs a certificate to be initialized so don't forget to switch the default example certificate with your personal certificate (and its key) inside the certificates folder if you're gonna use it for your personal projects.
+You'll need to add a certificate for the JWT authentication using the [JWT.Net](https://github.com/jwt-dotnet/jwt) package, so don't forget to change the default example certificate with your personal certificate (and its key) inside the `certificates` folder if you're gonna use it for your personal projects.
 
 The certificate is required in order to generate different tokens to issue to the users.
 
