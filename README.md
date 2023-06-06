@@ -1,4 +1,4 @@
-A simple boiler-plate web api with user authentication made with **.NET 7.0** and **MongoDB**.
+A simple web api with a few essential features for user authentication made with **.NET 7.0** and **MongoDB**.
 
 The users passwords are hashed and stored in the database using the [Bcrypt](https://it.wikipedia.org/wiki/Bcrypt) algorithm.
 
